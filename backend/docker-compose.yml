@@ -1,0 +1,73 @@
+# =============================================================================
+# Mykare Voice AI Agent — backend stack (FastAPI + LiveKit agent worker)
+# =============================================================================
+# - Single Dockerfile builds one image; both services run from that image.
+# - SQLite lives in a named volume at /app/database (shared by API and agent).
+# - Frontend is deployed on Vercel; it is intentionally not included here.
+# =============================================================================
+
+version: "3.9"
+
+# Compose project name (used for container/volume/network prefixes).
+name: mykare-voice-ai-agent
+
+services:
+  # ---------------------------------------------------------------------------
+  # Service 1: REST API (Uvicorn + FastAPI)
+  # ---------------------------------------------------------------------------
+  api:
+    container_name: mykare_api
+    # Build from this directory’s Dockerfile; tag so the agent service reuses
+    # the same image without a second build.
+    build: .
+    image: mykare-voice-backend:latest
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      # Dev: mount source into /app so --reload sees file changes on the host.
+      - .:/app
+      # Persist SQLite under /app/database (e.g. appointments.db) across
+      # container restarts; both services attach the same volume.
+      - sqlite_data:/app/database
+    env_file:
+      - .env
+    healthcheck:
+      # GET /health — uses Python stdlib (no curl/wget required in the image).
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # Service 2: LiveKit agent worker
+  # ---------------------------------------------------------------------------
+  agent:
+    container_name: mykare_agent
+    # Same image as api (built once when you `docker compose build` / `up`).
+    image: mykare-voice-backend:latest
+    build: .
+    command: python app/agent.py start
+    volumes:
+      - .:/app
+      - sqlite_data:/app/database
+    env_file:
+      - .env
+    # Wait until the API healthcheck passes so the worker does not start early.
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+# -----------------------------------------------------------------------------
+# Named volumes — stored by Docker locally (not in the repo).
+# -----------------------------------------------------------------------------
+volumes:
+  sqlite_data:

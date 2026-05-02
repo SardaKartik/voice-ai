@@ -1,0 +1,35 @@
+# Bytecode, packaging artifacts — not needed at runtime; shrinks context & layers.
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Local secrets and env-specific config — must not end up in the image. (.env.example stays included.)
+.env
+.env.local
+.env.production
+
+# Local SQLite — persistent data belongs on the volume, not baked into the image.
+database/*.db
+
+# Version control and ignore rules — not part of the application.
+.git/
+.gitignore
+
+# IDE metadata — irrelevant inside containers.
+.vscode/
+.idea/
+
+# Docs — not required to run the API or agent.
+*.md
+
+# Frontend ships separately (e.g. Vercel); exclude if present in build context.
+frontend/
+
+# JS dependencies — not used by the Python image.
+node_modules/

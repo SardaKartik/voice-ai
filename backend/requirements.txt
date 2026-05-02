@@ -1,0 +1,9 @@
+fastapi  # REST API framework
+uvicorn[standard]  # ASGI server (standard extras: uvloop, watchfiles, websockets, etc.)
+python-dotenv  # Load configuration from a local .env file
+livekit-agents[deepgram,cartesia,openai,turn-detector]>=0.8.0  # Voice agent + STT/TTS/LLM/turn plugins (min 0.8.0)
+livekit-api  # LiveKit Server API — access tokens, rooms, etc.
+openai  # OpenAI HTTP API (OpenAI or Azure OpenAI via base URL / environment)
+pydantic  # Settings and request/response validation
+aiohttp  # Async HTTP (LiveKit dependency; usable for outbound calls)
+livekit-plugins-silero  # Silero VAD (voice activity detection) for the audio pipeline

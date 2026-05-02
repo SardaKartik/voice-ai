@@ -1,0 +1,7 @@
+# Root .gitignore covers credentials, Python caches, and editor files.
+# Only backend-specific additions belong here.
+
+# SQLite database files (runtime data, not source)
+*.db
+*.sqlite3
+database/

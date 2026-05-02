@@ -1,0 +1,5 @@
+# Root .gitignore covers node_modules, dist, logs, and editor files.
+# Only frontend-specific additions belong here.
+
+# Vite preview cache
+.vite/
