@@ -29,10 +29,7 @@ from app.tools.identify_user import identify_user
 from app.tools.modify_appointment import modify_appointment
 from app.tools.retrieve_appointments import retrieve_appointments
 
-try:
-    from app.prompts import SYSTEM_PROMPT
-except ImportError:
-    from app.prompts import KARA_SYSTEM_PROMPT as SYSTEM_PROMPT
+from app.prompts import get_system_prompt
 
 logger = logging.getLogger("mykare.agent")
 
@@ -198,7 +195,7 @@ async def entrypoint(ctx: JobContext) -> None:
         # ── Step 8: Build agent with tools ───────────────────────────────────
         tools = _build_tools(ctx.room)
         logger.info("[%s] Agent tools registered: %d tools", room_name, len(tools))
-        agent = Agent(instructions=SYSTEM_PROMPT, tools=tools)
+        agent = Agent(instructions=get_system_prompt(), tools=tools)
 
         # ── Step 9: Create AgentSession ──────────────────────────────────────
         # turn_detection=None: let the SDK auto-select the best available mode.
