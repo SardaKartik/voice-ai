@@ -45,6 +45,6 @@ async def end_conversation(
         logger.warning("Could not publish call_summary on data channel: %s", exc)
 
     return (
-        "Thank you for calling Mykare Health. "
+        "Thank you for calling Healthcare. "
         "We look forward to seeing you. Take care!"
     )

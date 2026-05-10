@@ -1,4 +1,4 @@
-"""Healthcare booking tools for Kara (voice agent)."""
+"""Healthcare booking tools for Kiara (voice agent)."""
 
 from .book_appointment import book_appointment
 from .cancel_appointment import cancel_appointment

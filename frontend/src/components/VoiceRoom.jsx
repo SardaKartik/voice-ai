@@ -213,7 +213,7 @@ export default function VoiceRoom() {
 
   return (
     <div style={shellStyle}>
-      <h1 style={titleStyle}>Mykare Health</h1>
+      <h1 style={titleStyle}>Healthcare.ai</h1>
 
       <Avatar isSpeaking={agentSpeaking} />
 

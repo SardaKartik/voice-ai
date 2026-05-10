@@ -1,5 +1,5 @@
 /**
- * Center-screen animated avatar for Kara's speaking/listening state.
+ * Center-screen animated avatar for Kiara's speaking/listening state.
  *
  * @param {{ isSpeaking?: boolean }} props
  */
@@ -60,7 +60,7 @@ export default function Avatar({ isSpeaking = false }) {
   };
 
   return (
-    <div style={wrapperStyle} aria-live="polite" aria-label="Kara voice avatar">
+    <div style={wrapperStyle} aria-live="polite" aria-label="Kiara voice avatar">
       <style>{`
         @keyframes karaPulse {
           0% {
@@ -82,14 +82,14 @@ export default function Avatar({ isSpeaking = false }) {
         <div
           style={innerCircleStyle}
           role="img"
-          aria-label={isSpeaking ? "Microphone active" : "Kara avatar"}
+          aria-label={isSpeaking ? "Microphone active" : "Kiara avatar"}
         >
           {isSpeaking ? "🎙️" : "🙂"}
         </div>
       </div>
 
       <p style={labelStyle}>
-        {isSpeaking ? "Kara is speaking..." : "Kara is listening..."}
+        {isSpeaking ? "Kiara is speaking..." : "Kiara is listening..."}
       </p>
     </div>
   );

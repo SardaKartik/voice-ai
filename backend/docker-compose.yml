@@ -1,5 +1,5 @@
 # =============================================================================
-# Mykare Voice AI Agent — backend stack (FastAPI + LiveKit agent worker)
+# Healthcare.ai Voice AI Agent — backend stack (FastAPI + LiveKit agent worker)
 # =============================================================================
 # - Single Dockerfile builds one image; both services run from that image.
 # - SQLite lives in a named volume at /app/database (shared by API and agent).
@@ -9,18 +9,18 @@
 version: "3.9"
 
 # Compose project name (used for container/volume/network prefixes).
-name: mykare-voice-ai-agent
+name: healthcare-voice-ai-agent
 
 services:
   # ---------------------------------------------------------------------------
   # Service 1: REST API (Uvicorn + FastAPI)
   # ---------------------------------------------------------------------------
   api:
-    container_name: mykare_api
+    container_name: healthcare_api
     # Build from this directory’s Dockerfile; tag so the agent service reuses
     # the same image without a second build.
     build: .
-    image: mykare-voice-backend:latest
+    image: healthcare-voice-backend:latest
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
@@ -50,9 +50,9 @@ services:
   # Service 2: LiveKit agent worker
   # ---------------------------------------------------------------------------
   agent:
-    container_name: mykare_agent
+    container_name: healthcare_agent
     # Same image as api (built once when you `docker compose build` / `up`).
-    image: mykare-voice-backend:latest
+    image: healthcare-voice-backend:latest
     build: .
     command: python app/agent.py start
     volumes:

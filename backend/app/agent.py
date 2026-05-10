@@ -1,4 +1,4 @@
-"""LiveKit Voice AI agent worker for Mykare Health."""
+"""LiveKit Voice AI agent worker for Healthcare.ai."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ from app.tools.retrieve_appointments import retrieve_appointments
 
 from app.prompts import get_system_prompt
 
-logger = logging.getLogger("mykare.agent")
+logger = logging.getLogger("healthcare.agent")
 
 F = TypeVar("F", bound=Callable[..., Awaitable[Any]])
 
@@ -40,7 +40,7 @@ F = TypeVar("F", bound=Callable[..., Awaitable[Any]])
 # Tool call event publishing
 # -----------------------------------------------------------------------------
 def _build_tools(job_room: Any) -> list[Any]:
-    """Register all Mykare appointment tools, capturing job_room for data events.
+    """Register all Healthcare.ai appointment tools, capturing job_room for data events.
 
     RunContext (passed to tool functions in livekit-agents 1.x) no longer
     exposes .room, so the LiveKit Room from JobContext is captured here via
@@ -207,10 +207,10 @@ async def entrypoint(ctx: JobContext) -> None:
         #   better than VAD endpointing.
         #   NOTE: do NOT use "stt" — that mode causes a death-loop where
         #   Deepgram END_OF_SPEECH resets Silero → Silero fires START_OF_SPEECH
-        #   (echo) → cancels the committed turn → repeat, Kara never replies.
+        #   (echo) → cancels the committed turn → repeat, Kiara never replies.
         # vad=vad: Silero is kept for INTERRUPTION detection (detecting mid-
-        #   sentence user speech while Kara is talking), not turn detection.
-        # aec_warmup_duration=0.3: discard 300 ms of STT input after Kara
+        #   sentence user speech while Kiara is talking), not turn detection.
+        # aec_warmup_duration=0.3: discard 300 ms of STT input after Kiara
         #   speaks to suppress TTS echo bleed into Silero.
         # endpointing.min_delay / max_delay: window after turn-detector fires
         #   before the turn is committed to the LLM.
@@ -278,7 +278,7 @@ async def entrypoint(ctx: JobContext) -> None:
                 )
             text = (str(content) if content else "").strip()
             if text:
-                logger.info("[%s] Kara said: %s", room_name, text)
+                logger.info("[%s] Kiara said: %s", room_name, text)
 
         session.on("user_input_transcribed", _on_user_transcript)
         session.on("agent_speaking_started", _on_agent_speaking_started)
@@ -302,7 +302,7 @@ async def entrypoint(ctx: JobContext) -> None:
         # be processed once the greeting finishes.
         logger.debug("[%s] Delivering opening greeting (non-interruptible)...", room_name)
         await session.say(
-            "Hi, I'm Kara from Mykare Health. How can I help you?",
+            "Hi, I'm Kiara from Healthcare. How can I help you?",
             allow_interruptions=False,
         )
         logger.info("[%s] Opening greeting delivered — now listening", room_name)
@@ -321,7 +321,7 @@ if __name__ == "__main__":
         format="%(asctime)s %(levelname)s [%(name)s] %(message)s",
     )
     load_dotenv()
-    agent_name = os.getenv("LIVEKIT_AGENT_NAME", "mykare-agent").strip() or "mykare-agent"
+    agent_name = os.getenv("LIVEKIT_AGENT_NAME", "healthcare-agent").strip() or "healthcare-agent"
     agents.cli.run_app(
         agents.WorkerOptions(entrypoint_fnc=entrypoint, agent_name=agent_name)
     )

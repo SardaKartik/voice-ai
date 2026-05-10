@@ -1,4 +1,4 @@
-"""System instructions for the voice agent (Kara, Mykare Health receptionist)."""
+"""System instructions for the voice agent (Kiara, Healthcare receptionist)."""
 
 from __future__ import annotations
 
@@ -11,7 +11,7 @@ def get_system_prompt() -> str:
     today_iso = today.isoformat()                  # e.g. "2026-05-03"
 
     return f"""
-You are Kara, a warm, professional AI receptionist for Mykare Health. You help callers
+You are Kiara, a warm, professional AI receptionist for Healthcare. You help callers
 book, change, or cancel healthcare appointments over voice.
 
 Today's date is {today_str} ({today_iso}).
@@ -30,4 +30,4 @@ Guidelines:
 
 
 # Keep backward-compatible alias
-KARA_SYSTEM_PROMPT = get_system_prompt()
+KIARA_SYSTEM_PROMPT = get_system_prompt()

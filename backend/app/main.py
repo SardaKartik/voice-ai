@@ -12,7 +12,7 @@ from app.database.db import get_appointments, init_db
 
 load_dotenv()
 
-logger = logging.getLogger("mykare.api")
+logger = logging.getLogger("healthcare.api")
 
 
 @asynccontextmanager
@@ -27,7 +27,7 @@ async def lifespan(_app: FastAPI):
     yield
 
 
-app = FastAPI(title="Mykare Voice API", lifespan=lifespan)
+app = FastAPI(title="Healthcare.ai Voice API", lifespan=lifespan)
 
 # Allow cross-origin calls from frontend clients (including Vercel deployments).
 app.add_middleware(
@@ -42,7 +42,7 @@ app.add_middleware(
 @app.get("/health")
 async def health() -> dict[str, str]:
     """Healthcheck endpoint used by Docker compose and uptime checks."""
-    return {"status": "ok", "service": "mykare-voice-api"}
+    return {"status": "ok", "service": "healthcare-voice-api"}
 
 
 @app.get("/token")
@@ -59,7 +59,7 @@ async def token(
     api_key = os.getenv("LIVEKIT_API_KEY")
     api_secret = os.getenv("LIVEKIT_API_SECRET")
     ws_url = os.getenv("LIVEKIT_URL")
-    agent_name = os.getenv("LIVEKIT_AGENT_NAME", "mykare-agent").strip() or "mykare-agent"
+    agent_name = os.getenv("LIVEKIT_AGENT_NAME", "healthcare-agent").strip() or "healthcare-agent"
 
     if not api_key or not api_secret or not ws_url:
         logger.error("Missing LIVEKIT_URL / LIVEKIT_API_KEY / LIVEKIT_API_SECRET")
@@ -69,7 +69,7 @@ async def token(
         )
 
     try:
-        room_name = (room or "").strip() or f"mykare-{uuid4()}"
+        room_name = (room or "").strip() or f"healthcare-{uuid4()}"
         grant = api.VideoGrants(room_join=True, room=room_name)
         jwt = (
             api.AccessToken(api_key=api_key, api_secret=api_secret)

@@ -1,12 +1,12 @@
-# Mykare — Voice AI Healthcare Receptionist
+# Healthcare.ai — Voice AI Healthcare Receptionist
 
-A full-stack healthcare appointment booking system powered by a voice AI agent named **Kara**. Users speak directly to Kara through the browser to book, modify, or cancel medical appointments — no typing required.
+A full-stack healthcare appointment booking system powered by a voice AI agent named **Kiara**. Users speak directly to Kiara through the browser to book, modify, or cancel medical appointments — no typing required.
 
 ---
 
 ## Demo
 
-> **Kara:** "Hi, I'm Kara from Mykare Health. How can I help you today?"
+> **Kiara:** "Hi, I'm Kiara from Healthcare.ai. How can I help you today?"
 
 ---
 
@@ -18,7 +18,7 @@ voice_ai_avatar/
 │   ├── app/
 │   │   ├── main.py          # FastAPI REST API (token generation, appointments)
 │   │   ├── agent.py         # LiveKit voice agent worker
-│   │   ├── prompts.py       # Kara's system prompt / persona
+│   │   ├── prompts.py       # Kiara's system prompt / persona
 │   │   ├── tools/           # 7 appointment tool implementations
 │   │   └── database/
 │   │       ├── db.py        # SQLite query functions
@@ -101,7 +101,7 @@ Edit `backend/.env`:
 LIVEKIT_URL=wss://your-project.livekit.cloud
 LIVEKIT_API_KEY=your_key
 LIVEKIT_API_SECRET=your_secret
-LIVEKIT_AGENT_NAME=mykare-agent
+LIVEKIT_AGENT_NAME=healthcare-agent
 
 DEEPGRAM_API_KEY=your_key
 CARTESIA_API_KEY=your_key
@@ -191,7 +191,7 @@ npm run dev     # http://localhost:5173
 
 ## Agent Tools
 
-Kara has access to seven tools during a conversation:
+Kiara has access to seven tools during a conversation:
 
 | Tool | Description |
 |---|---|
